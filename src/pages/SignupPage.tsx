@@ -9,6 +9,15 @@ interface FormData {
     re_password: string;
 }
 
+interface ErrorData extends Error {
+    response?: {
+        status: number;
+        data: {
+            detail: string
+        };
+    };
+}
+
 const Register: React.FC = () => {
     const [data, setData] = useState<FormData>({
         full_name: '',
@@ -82,10 +91,11 @@ const Register: React.FC = () => {
             setSubmitted(true);
             setError(false);
             navigate('/login');
-        } catch (e: any) {
-            if (e.response && (e.response.status === 401 || e.response.status === 400)) {
+        } catch (e : unknown) {
+            const err = e as ErrorData;
+            if (err.response && (err.response.status === 401 || err.response.status === 400)) {
                 setError(true);
-                setErrorMessage(e.response.data.detail || "Пользователь с таким email уже существует");
+                setErrorMessage(err.response.data.detail || "Пользователь с таким email уже существует");
             } else {
                 console.log('Error: ' + e);
             }
