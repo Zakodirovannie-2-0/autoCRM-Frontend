@@ -4,9 +4,9 @@ import store from './redux/store.ts'
 import { Provider } from 'react-redux'
 import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
 import LoginPage from "./pages/LoginPage.tsx";
-import SignupPage from "./pages/SignupPage.tsx";
 import PrivateRoute from "./privateRoute.tsx";
 import WidgetPage from "./pages/WidgetPage.tsx";
+import Register from "./pages/SignupPage.tsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -14,7 +14,7 @@ const router = createBrowserRouter(
             <Route path="/form" element={<WidgetPage />} />
 
             <Route path="/" element={<LoginPage />} />
-            <Route path='/signup' element={<SignupPage />} />
+            <Route path='/signup' element={<Register />} />
 
             <Route path='' element = {<PrivateRoute />}>
             </Route>
