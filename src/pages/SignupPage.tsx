@@ -106,72 +106,79 @@ const Register: React.FC = () => {
     };
 
     return (
-        <>
-            <div className={'form_container'}>
-                <form className={'form'} onSubmit={handleSubmit}>
-                    <h1 className={'title'}>Регистрация</h1>
+        <div className={'w-full flex flex-col h-dvh mx-auto bg-main-bg bg-cover overflow-auto'}>
+            <header className="mt-40">
+                <div className="flex flex-col w-full text-[#000000]">
+                    <div><h2 className="text-5xl text-center font-semibold drop-shadow-lg">Регистрация</h2></div>
+                </div>
+            </header>
+                <div className={'mt-32 container mx-auto max-w-xm flex flex-col'}>
+                    <div className={'flex flex-col'}>
+                        <div className={'form_container'}>
+                            <form className={'form flex flex-col'} onSubmit={handleSubmit}>
+                                {error && <span className={'error'}>{errorMessage}</span>}
+                                {submitted && <span className={'success'}>Вы успешно зарегистрировались!</span>}
+                                <div className={'inputLabel flex flex-col'}>
+                                    <label htmlFor='full_name' className={'text-lg font-semibold'}>ФИО</label>
+                                    <input
+                                        type="text"
+                                        name="full_name"
+                                        id="full_name"
+                                        autoComplete='full name'
+                                        className={'input mt-2.5 bg-[#FFFFFFCC] rounded-md p-2 drop-shadow-lg'}
+                                        required
+                                        onChange={handleChange}
+                                        value={data.full_name}
+                                    />
+                                </div>
+                                <div className={'inputLabel flex flex-col mt-12'}>
+                                    <label htmlFor='email' className={'text-lg font-semibold'}>E-mail</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        id="email"
+                                        autoComplete='email'
+                                        className={'input mt-2.5 bg-[#FFFFFFCC] rounded-md p-2 drop-shadow-lg'}
+                                        required
+                                        onChange={handleChange}
+                                        value={data.email}
+                                    />
+                                </div>
+                                <div className={'inputLabel flex flex-col mt-12'}>
+                                    <label htmlFor='password' className={'text-lg font-semibold'}>Пароль</label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        id="password"
+                                        autoComplete='off'
+                                        className={'input mt-2.5 bg-[#FFFFFFCC] rounded-md p-2 drop-shadow-lg'}
+                                        required
+                                        onChange={handleChange}
+                                        value={data.password}
+                                    />
+                                </div>
+                                <div className={'inputLabel flex flex-col mt-12'}>
+                                    <label htmlFor='re_password' className={'text-lg font-semibold'}>Повторите пароль</label>
+                                    <input
+                                        type="password"
+                                        name="re_password"
+                                        id="re_password"
+                                        autoComplete='off'
+                                        className={'input mt-2.5 bg-[#FFFFFFCC] rounded-md p-2 drop-shadow-lg'}
+                                        required
+                                        onChange={handleChange}
+                                        value={data.re_password}
+                                    />
 
-                    {error && <span className={'error'}>{errorMessage}</span>}
-                    {submitted && <span className={'success'}>Вы успешно зарегистрировались!</span>}
+                                </div>
+                                <button className={'mt-20 mx-auto register text-center text-lg font-semibold py-2 px-16 bg-[#4C2A21] rounded-md text-[#FFFFFF]'} type="submit">Зарегистрироваться</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        </div>
 
-                    <div className={'inputLabel'}>
-                        <label htmlFor='full_name'>Имя</label>
-                        <input
-                            type="text"
-                            name="full_name"
-                            id="full_name"
-                            autoComplete='full name'
-                            className={'input'}
-                            required
-                            onChange={handleChange}
-                            value={data.full_name}
-                        />
-                    </div>
-                    <div className={'inputLabel'}>
-                        <label htmlFor='email'>E-mail</label>
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            autoComplete='email'
-                            className={'input'}
-                            required
-                            onChange={handleChange}
-                            value={data.email}
-                        />
-                    </div>
-                    <div className={'inputLabel'}>
-                        <label htmlFor='password'>Пароль</label>
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            autoComplete='off'
-                            className={'input'}
-                            required
-                            onChange={handleChange}
-                            value={data.password}
-                        />
-                    </div>
-                    <div className={'inputLabel'}>
-                        <label htmlFor='re_password'>Повторите пароль</label>
-                        <input
-                            type="password"
-                            name="re_password"
-                            id="re_password"
-                            autoComplete='off'
-                            className={'input'}
-                            required
-                            onChange={handleChange}
-                            value={data.re_password}
-                        />
-
-                    </div>
-                    <button className={'register'} type="submit">Зарегистрироваться</button>
-                </form>
-            </div>
-        </>
-    );
-};
+            );
+            };
 
 export default Register;

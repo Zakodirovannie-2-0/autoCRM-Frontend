@@ -51,52 +51,57 @@ const LoginPage: React.FC = () => {
     }
     
     return (
-        <div className={'div'}>
-            <div className={'div'}>
-                <h2>Вход</h2>
-                {isLogin && <span className={'success'}>Вы успешно вошли в аккаунт</span>}
-                {isError && <span className={'error'}>{errorMessage}</span>}
-                <form onSubmit={(event)=>event.preventDefault()}>
-                    <div className="form-group">
-                        <label htmlFor="email">E-mail</label>
-                        <input
-                            type="email"
-                            id="email"
-                            placeholder="Введите ваш email"
-                            required
-                            onChange={e => setEmail(e.target.value)}
-                            value={email}
-                            className={'input'}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Пароль</label>
-                        <input
-                            type="password"
-                            id="password"
-                            placeholder="Введите ваш пароль"
-                            required
-                            onChange={e => setPassword(e.target.value)}
-                            value={password}
-                            className={'input'}
-                        />
-                    </div>
-                    <div className={"form-actions"}>
+        <div className={'w-full flex flex-col h-dvh mx-auto bg-main-bg bg-cover overflow-auto'}>
+            <header className="mt-52 xl:mt-28">
+                <div className="flex flex-col w-full text-[#000000]">
+                    <div> <h2 className="text-5xl text-center font-semibold drop-shadow-lg">Вход</h2></div>
+                </div>
+            </header>
+            <div className={'mt-32 container mx-auto max-w-xm flex flex-col'}>
+                <div className={'flex flex-col w-full'}>
+                    {isLogin && <span className={'success'}>Вы успешно вошли в аккаунт</span>}
+                    {isError && <span className={'error'}>{errorMessage}</span>}
+                    <form onSubmit={(event) => event.preventDefault()}>
+                        <div className="form-group flex flex-col">
+                            <label htmlFor="email" className={'text-lg font-semibold'}>E-mail</label>
+                            <input
+                                type="email"
+                                id="email"
+                                required
+                                onChange={e => setEmail(e.target.value)}
+                                value={email}
+                                className={'input mt-2.5 bg-[#FFFFFFCC] rounded-md p-2 drop-shadow-lg'}
+                            />
+                        </div>
+                        <div className="form-group flex flex-col mt-12">
+                            <label htmlFor="password" className={'text-lg font-semibold'}>Пароль</label>
+                            <input
+                                type="password"
+                                id="password"
+                                required
+                                onChange={e => setPassword(e.target.value)}
+                                value={password}
+                                className={'input mt-2.5 bg-[#FFFFFFCC] rounded-md p-2 drop-shadow-lg'}
+                            />
+                        </div>
+                    <div className={"form-actions flex flex-row justify-center mt-20 gap-10"}>
                         <button
                             type="submit"
                             onClick={handleSubmit}
-                            className={'button'}
+                            className={'text-center text-lg font-semibold button py-2 px-11 bg-[#4C2A21] rounded-md text-[#FFFFFF]'}
                         >
                             Войти
                         </button>
 
-                        <a href="#">
+                        <a href="#" className={'text-center text-lg font-semibold py-2 px-16 bg-[#4C2A21] rounded-md text-[#FFFFFF]'}>
                             Забыли пароль?
                         </a>
                     </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
+
     );
 };
 
