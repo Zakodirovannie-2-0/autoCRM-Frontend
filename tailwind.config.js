@@ -14,7 +14,11 @@ module.exports = {
         'main-bg': "url('src/assets/background.png')"
       },
       fontFamily: {
-        'merriweather': 'Merriweather, Helvetica, Arial, serif',
+        'golos': 'Golos Text, sans-serif',
+        'mont': 'Montserrat, sans-serif',
+      },
+      fontSize: {
+        '3.5xl': '2rem',
       },
       colors: {
         transparent: 'transparent',
