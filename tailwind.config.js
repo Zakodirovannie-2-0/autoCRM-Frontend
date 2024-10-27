@@ -7,8 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      height:{
+        '100': '800px',
+      },
+      maxHeight:{
+        'xm': '448px'
+      },
       maxWidth: {
         'xm': '37.5rem',
+        'sxl': '800px',
       },
       backgroundImage: {
         'main-bg': "url('src/assets/background.png')"

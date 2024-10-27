@@ -8,12 +8,13 @@ import PrivateRoute from "./privateRoute.tsx";
 import WidgetPage from "./pages/WidgetPage.tsx";
 import Register from "./pages/SignupPage.tsx";
 import ClientsBasePage from "./pages/ClientsBasePage.tsx";
+import DealsPage from "./pages/DealsPage.tsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
             <Route path="/form" element={<WidgetPage />} />
-
+            <Route path="/deals" element={<DealsPage />} />
             <Route path="/" element={<LoginPage />} />
             <Route path='/signup' element={<Register />} />
 
