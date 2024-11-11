@@ -10,6 +10,7 @@ import Register from "./pages/SignupPage.tsx";
 import ClientsBasePage from "./pages/ClientsBasePage.tsx";
 import DealsPage from "./pages/DealsPage.tsx";
 import Recovery from "./pages/Recovery.tsx";
+import ChangePassword from "./pages/ChangePassword.tsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -18,7 +19,7 @@ const router = createBrowserRouter(
 
             <Route path="/" element={<LoginPage />} />
             <Route path='/signup' element={<Register />} />
-
+            <Route path='/change' element={<ChangePassword />} />
             <Route path='' element = {<PrivateRoute />}>
                 <Route path={'/clients'} element={<ClientsBasePage />} />
                 <Route path="/deals" element={<DealsPage />} />
