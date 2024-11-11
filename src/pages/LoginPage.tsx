@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
             localStorage.setItem('access-token', response.data.accessToken)
             localStorage.setItem('refresh-token', response.data.refreshToken)
             dispatch(setAuth(response.data.accessToken !== null))
-            window.location.assign('https://vstrecya.space/')
+            window.location.assign('/clients')
         } catch (e) {
             if (e instanceof AxiosError && e.response) {
                 if (e.response.status === 401 || e.response.status === 400) {
