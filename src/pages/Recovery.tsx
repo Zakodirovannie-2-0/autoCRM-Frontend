@@ -11,6 +11,7 @@ interface FormData {
 }
 
 const Recovery: React.FC = () => {
+    const [open, setOpen] = useState<boolean>(false)
     const [data, setData] = useState<FormData>({
         full_name: '',
         email: '',
@@ -28,10 +29,14 @@ const Recovery: React.FC = () => {
 
     const handleSubmit: FormEventHandler<HTMLFormElement> = (evt) => {
         evt.preventDefault();
-
+        //Запрос на сервер
+        setOpen(true);
     }
 
-    const [open, setOpen] = useState<boolean>(false)
+    const onClose = () => {
+        setOpen(false);
+        window.location.assign('/changePassword')
+    }
 
     return (
         <div className={'w-full flex flex-col h-dvh mx-auto bg-main-bg bg-cover overflow-auto'}>
@@ -44,7 +49,6 @@ const Recovery: React.FC = () => {
                 <div className={'flex flex-col'}>
                     <div className={'form_container'}>
                         <form className={'form flex flex-col'} onSubmit={handleSubmit} >
-
                             <div className={'inputLabel flex flex-col mt-12'}>
                                 <label htmlFor='email' className={'text-lg font-semibold'}>E-mail</label>
                                 <input
@@ -58,17 +62,17 @@ const Recovery: React.FC = () => {
                                     value={data.email}
                                 />
                             </div>
+
                             <div className={"form-actions flex flex-row justify-center mt-20 gap-10"}>
                                 <a href="#"
                                    className={'text-center text-lg font-semibold py-2 px-16 bg-[#4C2A21] rounded-md text-[#FFFFFF]'}>
                                     Назад
                                 </a>
-                                <button
-                                    className='text-center text-lg font-semibold py-2 px-16 bg-[#4C2A21] rounded-md text-[#FFFFFF]'
-                                    onClick={() => setOpen(true)}>
+                                <button className='text-center text-lg font-semibold py-2 px-16 bg-[#4C2A21] rounded-md text-[#FFFFFF]'>
                                     Далее
                                 </button>
-                                <Modal open={open} onClose={() => setOpen(false)}>
+
+                                <Modal open={open} onClose={() => onClose()}>
                                     <div className="w-full text-center">
                                         <h1 className="text-xl">На вашу почту было отправлено письмо с инструкциями по восстановлению пароля.</h1>
 
