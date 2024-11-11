@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from "../components/header.tsx";
 import Sidebar from "../components/Sidebar.tsx";
 import search from '../assets/Clients icons/search icon.png'
@@ -7,25 +7,22 @@ const DealsPage : React.FC = () => {
     const fixedElement = document.querySelector('aside') as HTMLElement | null;
     const stopBlock = document.querySelector('footer') as HTMLElement | null;
     const selectBar = document.querySelector('select') as HTMLElement | null;
+    const [widgets, setWidgets] = useState<string[]>([]);
 
-    useEffect(() => {
-        if (fixedElement && stopBlock) {
-            window.addEventListener('scroll', () => {
-                const stopBlockTop = stopBlock.getBoundingClientRect().top;
-                const fixedElementHeight = fixedElement.offsetHeight;
+    function handleOnDrag(e: React.DragEvent, widgetType: string) {
+        e.dataTransfer.setData("widgetType", widgetType);
+    }
+    
+    function handleOnDrop(e: React.DragEvent) {
+        const widgetType = e.dataTransfer.getData("widgetType") as string;
+        setWidgets([...widgets, widgetType]);
+    }
 
-                if (stopBlockTop <= fixedElementHeight) {
-                    fixedElement.classList.remove('fixed', 'top-0');
-                    fixedElement.classList.add('absolute');
-                    fixedElement.style.top = `${stopBlock.offsetTop - fixedElementHeight}px`;
-                } else {
-                    fixedElement.classList.remove('absolute');
-                    fixedElement.classList.add('fixed', 'top-0');
-                    fixedElement.style.top = '';
-                }
-            });
-        }
-    }, [fixedElement, stopBlock, selectBar])
+    function handleDragOver(e: React.DragEvent){
+        e.preventDefault();
+    }
+
+
 
 
     return (
@@ -53,14 +50,30 @@ const DealsPage : React.FC = () => {
                         <div className='flex min-h-screen flex-row justify-center mt-10 gap-[60px]'>
                             <div className='max-w-sxl w-full max-h-xm h-[800px] bg-gray-100 text-center rounded-md'>
                                 <h2 className='text-lg font-semibold  pt-5'>Неподтверждено</h2>
-                                <div className='mx-6 bg-[#FFFFFF] pt-3.5 pb-9 gap-6 mt-11 text-left px-14 rounded-md'>
-                                    <h2 className='text-lg font-medium '>название услуги</h2>
-                                    <h2 className='text-lg font-medium '>фио клиента</h2>
-                                    <h2 className='text-lg font-medium '>время записи</h2>
+                                <div className="widgets">
+                                    <div
+                                        className='widget mx-6 bg-[#FFFFFF] pt-3.5 pb-9 gap-6 mt-11 text-left px-14 rounded-md'
+                                        draggable
+                                        onDragStart={(e) => handleOnDrag(e, "Заявка 1")}
+                                    >
+                                        <h2 className='text-lg font-medium '>название услуги</h2>
+                                        <h2 className='text-lg font-medium '>фио клиента</h2>
+                                        <h2 className='text-lg font-medium '>время записи</h2>
+                                    </div>
                                 </div>
                             </div>
                             <div className='max-w-sxl w-full max-h-xm h-[800px] bg-gray-100 text-center rounded-md'>
-                                <h2 className='text-lg font-semibold pt-5'>Подтвержено</h2>
+                                <div
+                                    className="page className='max-w-sxl w-full max-h-xm h-[800px] bg-gray-100 text-center rounded-md"
+                                    onDrop={handleOnDrop} onDragOver={handleDragOver}>
+                                    <h2 className='text-lg font-semibold pt-5'>Подтвержено</h2>
+                                    {widgets.map((widget, index) => (
+                                        <div key={index}
+                                             className='dropped-widget mx-6 bg-[#FFFFFF] pt-3.5 pb-9 gap-6 mt-11 text-left px-14 rounded-md'>
+                                            {widget}
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         </div>
 
