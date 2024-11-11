@@ -93,7 +93,7 @@ const LoginPage: React.FC = () => {
                             Войти
                         </button>
 
-                        <a href="#" className={'text-center text-lg font-semibold py-2 px-16 bg-[#4C2A21] rounded-md text-[#FFFFFF]'}>
+                        <a href="/recovery" className={'text-center text-lg font-semibold py-2 px-16 bg-[#4C2A21] rounded-md text-[#FFFFFF]'}>
                             Забыли пароль?
                         </a>
                     </div>
