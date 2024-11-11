@@ -1,32 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Header from "../components/header.tsx";
 import Sidebar from "../components/Sidebar.tsx";
 import search from '../assets/Clients icons/search icon.png'
 
 const DealsPage : React.FC = () => {
-    const fixedElement = document.querySelector('aside') as HTMLElement | null;
-    const stopBlock = document.querySelector('footer') as HTMLElement | null;
-    const selectBar = document.querySelector('select') as HTMLElement | null;
-
-    useEffect(() => {
-        if (fixedElement && stopBlock) {
-            window.addEventListener('scroll', () => {
-                const stopBlockTop = stopBlock.getBoundingClientRect().top;
-                const fixedElementHeight = fixedElement.offsetHeight;
-
-                if (stopBlockTop <= fixedElementHeight) {
-                    fixedElement.classList.remove('fixed', 'top-0');
-                    fixedElement.classList.add('absolute');
-                    fixedElement.style.top = `${stopBlock.offsetTop - fixedElementHeight}px`;
-                } else {
-                    fixedElement.classList.remove('absolute');
-                    fixedElement.classList.add('fixed', 'top-0');
-                    fixedElement.style.top = '';
-                }
-            });
-        }
-    }, [fixedElement, stopBlock, selectBar])
-
 
     return (
         <div className='w-full mx-auto bg-main-bg bg-cover overflow-auto'>
