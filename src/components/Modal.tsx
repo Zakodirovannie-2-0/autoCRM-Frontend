@@ -15,7 +15,7 @@ const Modal: React.FC<propTypes> = ({ open, onClose, children }) => {
         >
             <div
                 className={`bg-white rounded-lg shadow 
-        transition-all max-w-sxl py-9 px-20 duration-1000
+        transition-all max-w-sxl py-9 px-20 duration-300
         ${open ? "scale-100 opacity-100" : "scale-110 opacitiy-0"}`}
                 onClick={(e) => e.stopPropagation()}
             >

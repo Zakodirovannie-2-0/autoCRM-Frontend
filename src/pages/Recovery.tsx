@@ -1,5 +1,5 @@
 import Modal from "../components/Modal.tsx";
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, FormEventHandler, useState} from "react";
 
 
 interface FormData {
@@ -26,6 +26,11 @@ const Recovery: React.FC = () => {
         }));
     };
 
+    const handleSubmit: FormEventHandler<HTMLFormElement> = (evt) => {
+        evt.preventDefault();
+
+    }
+
     const [open, setOpen] = useState<boolean>(false)
 
     return (
@@ -38,7 +43,7 @@ const Recovery: React.FC = () => {
             <div className={'mt-32 container mx-auto max-w-xm flex flex-col'}>
                 <div className={'flex flex-col'}>
                     <div className={'form_container'}>
-                        <form className={'form flex flex-col'} >
+                        <form className={'form flex flex-col'} onSubmit={handleSubmit} >
 
                             <div className={'inputLabel flex flex-col mt-12'}>
                                 <label htmlFor='email' className={'text-lg font-semibold'}>E-mail</label>
