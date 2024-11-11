@@ -1,12 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Header from "../components/header.tsx";
 import Sidebar from "../components/Sidebar.tsx";
 import search from '../assets/Clients icons/search icon.png'
 
 const DealsPage : React.FC = () => {
-    const fixedElement = document.querySelector('aside') as HTMLElement | null;
-    const stopBlock = document.querySelector('footer') as HTMLElement | null;
-    const selectBar = document.querySelector('select') as HTMLElement | null;
     const [widgets, setWidgets] = useState<string[]>([]);
 
     function handleOnDrag(e: React.DragEvent, widgetType: string) {
@@ -21,9 +18,6 @@ const DealsPage : React.FC = () => {
     function handleDragOver(e: React.DragEvent){
         e.preventDefault();
     }
-
-
-
 
     return (
         <div className='w-full mx-auto bg-main-bg bg-cover overflow-auto'>

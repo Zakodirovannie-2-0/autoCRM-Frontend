@@ -15,12 +15,13 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
             <Route path="/form" element={<WidgetPage />} />
-            <Route path="/deals" element={<DealsPage />} />
+
             <Route path="/" element={<LoginPage />} />
             <Route path='/signup' element={<Register />} />
             <Route path='/recovery' element={<Recovery/>} />
             <Route path='' element = {<PrivateRoute />}>
                 <Route path={'/clients'} element={<ClientsBasePage />} />
+                <Route path="/deals" element={<DealsPage />} />
             </Route>
         </Route>
     )
