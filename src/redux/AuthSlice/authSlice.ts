@@ -7,7 +7,7 @@ interface AuthState {
 
 // Define the initial state using that type
 const initialState: AuthState = {
-    isAuth: localStorage.getItem('access_token')!==null,
+    isAuth: localStorage.getItem('access-token')!==null,
 }
 
 export const authSlice = createSlice({

@@ -23,3 +23,11 @@ export const refreshToken = () => {
 export const logout = () => {
     localStorage.removeItem('access-token')
 }
+
+export const getMyInfo = () => {
+    return instance.get("/me/")
+}
+
+export const updatePhoto = (photo:any) => {
+    return instance.patch("/me/", photo)
+}
