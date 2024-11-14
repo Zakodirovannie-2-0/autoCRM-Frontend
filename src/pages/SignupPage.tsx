@@ -9,7 +9,7 @@ interface FormData {
     re_password: string;
 }
 
-interface ErrorData extends Error {
+export interface ErrorData extends Error {
     response?: {
         status: number;
         data: {

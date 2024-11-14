@@ -4,6 +4,7 @@ import ClientsTable from "../components/ClientsTable.tsx";
 import Sidebar from "../components/Sidebar.tsx";
 import ActionButtons from "../components/ActionButtons.tsx";
 import search from '../assets/Clients icons/search icon.png'
+import Footer from "../components/Footer.tsx";
 
 const ClientsBasePage : React.FC = () => {
     const fixedElement = document.querySelector('aside') as HTMLElement | null;
@@ -57,10 +58,7 @@ const ClientsBasePage : React.FC = () => {
                     </div>
                 </div>
             </div>
-            <footer className=" flex bg-[#59636C] text-base text-black py-2 text-center
-            font-golos font-[600] mt-auto w-full h-[3.75rem] justify-center items-center">
-                <span> Сделано командой “Закодированные 2.0” для Проектного Практикума </span>
-            </footer>
+            <Footer />
         </div>
     );
 };
