@@ -171,7 +171,7 @@ const Register: React.FC = () => {
                                     />
 
                                 </div>
-                                <button className={'mt-20 mx-auto register text-center text-lg font-semibold py-2 px-16 bg-[#4C2A21] rounded-md text-[#FFFFFF]'} type="submit">Зарегистрироваться</button>
+                                <button className={'mt-20 mx-auto register text-center text-lg font-semibold py-2 px-16 bg-[#4C2A21] rounded-md text-[#FFFFFF] btn'} type="submit">Зарегистрироваться</button>
                             </form>
                         </div>
                     </div>
