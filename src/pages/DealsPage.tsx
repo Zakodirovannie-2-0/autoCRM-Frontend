@@ -4,7 +4,8 @@ import Header from "../components/header.tsx";
 import Sidebar from "../components/Sidebar.tsx";
 import search from "../assets/Clients icons/search icon.png";
 import Footer from "../components/Footer.tsx";
-import Modal from "../components/Modal";  // Импортируем компонент Modal
+import Modal from "../components/Modal";
+import DealsCard from "../components/DealsCard.tsx";  // Импортируем компонент Modal
 
 // Типы для виджетов и задач
 interface Widget {
@@ -272,6 +273,7 @@ const DealsPage: React.FC = () => {
                     </div>
                 </div>
             </Modal>
+            <DealsCard />
         </div>
     );
 };
