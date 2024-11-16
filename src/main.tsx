@@ -12,6 +12,7 @@ import DealsPage from "./pages/DealsPage.tsx";
 import Recovery from "./pages/Recovery.tsx";
 import ChangePassword from "./pages/ChangePassword.tsx";
 import Profile from "./pages/Profile.tsx";
+import TasksBoard from "./pages/TasksBoard.tsx";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -26,6 +27,7 @@ const router = createBrowserRouter(
                 <Route path='/recovery' element={<Recovery/>} />
                 <Route path='/changePassword' element={<ChangePassword />} />
                 <Route path='/profile' element={<Profile />} />
+                <Route path='/tasks' element={<TasksBoard />} />
             </Route>
         </Route>
     )
