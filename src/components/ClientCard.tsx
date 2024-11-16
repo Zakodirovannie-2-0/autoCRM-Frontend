@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import ClientCardHistory from "./ClientCardHistory.tsx";
 import {useAppDispatch, useAppSelector} from "../hooks/reduxHooks.ts";
 import {setOpen} from "../redux/ModalSlice/modalSlice.ts";
+import {setClientEmail, setClientName, setClientPhone} from "../redux/ClientSlice/clientSlice.ts";
 
 type propTypes = {
     onClose: ()=>void;
@@ -12,7 +13,10 @@ const ClientCard: React.FC<propTypes> = ({onClose}) => {
     const handleSelectionChange = (selected: boolean) => {
         setHistorySelected(selected);
     };
-    const clientData = useAppSelector(state => state.client.clientData)
+    const name = useAppSelector(state => state.client.name)
+    const phone = useAppSelector(state => state.client.phone)
+    const email = useAppSelector(state => state.client.email)
+    const creation_date = useAppSelector(state => state.client.creation_date)
     const dispatch = useAppDispatch();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +26,7 @@ const ClientCard: React.FC<propTypes> = ({onClose}) => {
     }
 
     return <>
-        {historySelected ? <ClientCardHistory setSelection={handleSelectionChange} onClose={onClose} name={clientData.name}/> :
+        {historySelected ? <ClientCardHistory setSelection={handleSelectionChange} onClose={onClose} name={name}/> :
             <form onSubmit={event => handleSubmit(event)}
                 className={'flex flex-col h-full bg-[#F5D9C4] fixed inset-y-0 z-10 right-0 max-w-xm w-full px-12 py-16'}>
                 <button type={'button'}
@@ -33,7 +37,9 @@ const ClientCard: React.FC<propTypes> = ({onClose}) => {
                 >
                     X
                 </button>
-                <input className={'text-2xl font-semibold text-black bg-transparent'} value={clientData.name?clientData.name:"ФИО"} />
+                <input className={'text-2xl font-semibold text-black bg-transparent'} value={name?name:"ФИО"}
+                    onChange={() => dispatch(setClientName(name))}
+                />
                 <div className={'flex flex-row mt-7 gap-10'}>
                     <button
                         className={'text-center text-lg font-semibold button py-2 px-11 bg-[#4C2A21] rounded-md text-[#FFFFFF] btn'}>информация
@@ -46,21 +52,21 @@ const ClientCard: React.FC<propTypes> = ({onClose}) => {
                     <label className='text-lg font-bold font-golos'>E-mail</label>
                     <input className='w-[31.25rem] h-10 mt-2.5 text-lg font-medium font-golos
                         rounded-md p-2 disabled:bg-[#FFFFFF] focus:outline-none shadow-xl'
-                    value={clientData.email} readOnly
+                    value={email} onChange={() => dispatch(setClientEmail(email))} type={"email"}
                     />
                 </div>
                 <div className='flex flex-col mt-10'>
                     <label className='text-lg font-bold font-golos'>Телефон</label>
                     <input className='w-[31.25rem] h-10 mt-2.5 text-lg font-medium font-golos
                         rounded-md p-2 disabled:bg-[#FFFFFF] focus:outline-none shadow-xl'
-                    value={clientData.phone} readOnly
+                    value={phone} onChange={() => dispatch(setClientPhone(phone))} type={"tel"}
                     />
                 </div>
                 <div className='flex flex-col mt-10'>
                     <label className='text-lg font-bold font-golos'>Дата создания</label>
                     <input className='w-[31.25rem] h-10 mt-2.5 text-lg font-medium font-golos
                         rounded-md p-2 disabled:bg-[#FFFFFF] focus:outline-none shadow-xl'
-                    value={clientData.creation_date} readOnly
+                    value={creation_date} readOnly
                     />
                 </div>
                 <div className='flex flex-col mt-10'>

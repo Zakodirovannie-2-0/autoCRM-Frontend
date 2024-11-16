@@ -5,7 +5,10 @@ import Sidebar from "../components/Sidebar.tsx";
 import search from "../assets/Clients icons/search icon.png";
 import Footer from "../components/Footer.tsx";
 import Modal from "../components/Modal";
-import DealsCard from "../components/DealsCard.tsx";  // Импортируем компонент Modal
+import DealsCard from "../components/DealsCard.tsx";
+import {setOpen} from "../redux/ModalSlice/modalSlice.ts";
+import {useAppDispatch, useAppSelector} from "../hooks/reduxHooks.ts";
+import {setDealClient, setDealEmail, setDealName, setDealPhone, setDealTime} from "../redux/DealSlice/dealSlice.ts";  // Импортируем компонент Modal
 
 // Типы для виджетов и задач
 interface Widget {
@@ -22,6 +25,8 @@ const DealsPage: React.FC = () => {
                     <h2 className="text-lg font-medium">название услуги</h2>
                     <h2 className="text-lg font-medium">фио клиента</h2>
                     <h2 className="text-lg font-medium">время записи</h2>
+                    <p className={'hidden'}>Емейл</p>
+                    <p className={'hidden'}>Телефон</p>
                 </div>
             ),
         },
@@ -39,11 +44,23 @@ const DealsPage: React.FC = () => {
     const [serviceName, setServiceName] = useState<string>("");
     const [clientName, setClientName] = useState<string>("");
     const [time, setTime] = useState<string>("");
+    const [email, setEmail] = useState<string>('');
+    const [phone, setPhone] = useState<string>('');
+    const isOpen = useAppSelector(state => state.modal.isOpen);
+    const dispatch = useAppDispatch();
 
     // Функция обработки клика по задаче
     const handleTaskClick = (widget: Widget) => {
         if (isDragging) return;
-        console.log(`Нажали на задачу: ${widget.id}`);
+        dispatch(setOpen(true))
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const [serviceName, clientName, time, email, phone] = React.Children.toArray(widget.content)[0].props.children
+        dispatch(setDealName(serviceName.props.children))
+        dispatch(setDealClient(clientName.props.children))
+        dispatch(setDealTime(time.props.children))
+        dispatch(setDealEmail(email.props.children))
+        dispatch(setDealPhone(phone.props.children))
     };
 
     // Функция для добавления новой задачи
@@ -56,6 +73,8 @@ const DealsPage: React.FC = () => {
                         <h2 className="text-lg font-medium">{serviceName}</h2>
                         <h2 className="text-lg font-medium">{clientName}</h2>
                         <h2 className="text-lg font-medium">{time}</h2>
+                        <p className={'hidden'}>{email}</p>
+                        <p className={'hidden'}>{phone}</p>
                     </div>
                 ),
             };
@@ -216,6 +235,7 @@ const DealsPage: React.FC = () => {
                                                                 {...provided.draggableProps}
                                                                 {...provided.dragHandleProps}
                                                                 className="mx-6 bg-[#FFFFFF] pt-3.5 pb-9 gap-6 mt-11 text-left px-14 rounded-md"
+                                                                onClick={() => handleTaskClick(widget)}
                                                             >
                                                                 {widget.content}
                                                             </div>
@@ -235,7 +255,7 @@ const DealsPage: React.FC = () => {
             <Footer />
             <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
                 <div>
-                    <h2 className="text-xl font-semibold">Создать новую задачу</h2>
+                    <h2 className="text-xl font-semibold">Создать новую сделку</h2>
                     <div className="mt-4">
                         <input
                             type="text"
@@ -256,14 +276,32 @@ const DealsPage: React.FC = () => {
                     </div>
                     <div className="mt-4">
                         <input
-                            type="text"
+                            type="time"
                             value={time}
                             onChange={(e) => setTime(e.target.value)}
                             placeholder="Время записи"
                             className="w-full px-4 py-2 border border-gray-300 rounded-md"
                         />
                     </div>
-                    <div className="mt-6 flex justify-end">
+                    <div className="mt-4">
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="E-mail"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
+                    <div className="mt-4">
+                        <input
+                            type="tel"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                            placeholder="Номер телефона"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                        />
+                    </div>
+                    <div className="mt-6 flex justify-center">
                         <button
                             className="bg-[#4C2A21] text-white font-semibold py-2 px-6 rounded-md"
                             onClick={addNewTask}  // Добавление новой задачи
@@ -273,7 +311,7 @@ const DealsPage: React.FC = () => {
                     </div>
                 </div>
             </Modal>
-            <DealsCard />
+            {isOpen ? <DealsCard onClose={() => dispatch(setOpen(false))}/> : null}
         </div>
     );
 };

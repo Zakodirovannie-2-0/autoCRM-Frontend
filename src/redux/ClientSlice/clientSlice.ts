@@ -1,27 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 // Define a type for the slice state
-interface ClientData {
-    id: number;
+interface ClientState {
     name: string;
     phone: string;
     email: string;
     creation_date: string;
 }
 
-interface ClientState {
-    clientData: ClientData;
-}
-
 // Define the initial state using that type
 const initialState: ClientState = {
-    clientData: {
-        id: 0,
-        name: '',
-        phone: '',
-        email: '',
-        creation_date: ''
-    },
+    name: '',
+    phone: '',
+    email: '',
+    creation_date: '',
 }
 
 export const clientSlice = createSlice({
@@ -29,11 +21,20 @@ export const clientSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-        setClient: (state, action: PayloadAction<ClientData>) => {
-            state.clientData = action.payload;
+        setClientName: (state, action: PayloadAction<string>) => {
+            state.name = action.payload;
+        },
+        setClientPhone: (state, action: PayloadAction<string>) => {
+            state.phone = action.payload;
+        },
+        setClientEmail: (state, action: PayloadAction<string>) => {
+            state.email = action.payload;
+        },
+        setClientCreation: (state, action: PayloadAction<string>) => {
+            state.creation_date = action.payload;
         },
     },
 })
 
-export const { setClient } = clientSlice.actions
+export const { setClientName, setClientEmail, setClientPhone, setClientCreation } = clientSlice.actions
 export default clientSlice.reducer

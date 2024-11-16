@@ -8,7 +8,8 @@ import Footer from "../components/Footer.tsx";
 import {useAppDispatch, useAppSelector} from "../hooks/reduxHooks.ts";
 import {setOpen} from "../redux/ModalSlice/modalSlice.ts";
 import ClientCard from "../components/ClientCard.tsx";
-import {setClient} from "../redux/ClientSlice/clientSlice.ts";
+import {setClientCreation, setClientEmail, setClientName, setClientPhone} from "../redux/ClientSlice/clientSlice.ts";
+import {formatDate} from "../utils/utils.ts";
 
 const ClientsBasePage : React.FC = () => {
     const fixedElement = document.querySelector('aside') as HTMLElement | null;
@@ -16,6 +17,9 @@ const ClientsBasePage : React.FC = () => {
     const selectBar = document.querySelector('select') as HTMLElement | null;
     const [selectedClients, setSelectedClients] = useState<number[]>([]);
     const isOpen = useAppSelector((state) => state.modal.isOpen)
+    const name = useAppSelector(state => state.client.name)
+    const phone = useAppSelector(state => state.client.phone)
+    const email = useAppSelector(state => state.client.email)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -49,20 +53,6 @@ const ClientsBasePage : React.FC = () => {
         setSelectedClients(selected);
     };
 
-    const handleCreation = () => {
-
-        dispatch(setClient({
-            id: 0,
-            name: '',
-            phone: '',
-            email: '',
-            creation_date: ''
-        }))
-
-        dispatch(setOpen(true))
-    }
-
-
     return (
         <div className='w-full mx-auto bg-main-bg bg-cover overflow-auto'>
             <div className='flex min-h-screen'>
@@ -72,7 +62,14 @@ const ClientsBasePage : React.FC = () => {
 
                     <div className='flex py-5 px-8 items-center'>
                         <h1 className="text-3.5xl font-bold ml-9 mr-[5.25rem]">КЛИЕНТЫ</h1>
-                        <button className="bg-[#4C2A21] text-white font-semibold font-mont py-2 px-[2.594rem] rounded-md" onClick={handleCreation}>
+                        <button className="bg-[#4C2A21] text-white font-semibold font-mont py-2 px-[2.594rem] rounded-md" onClick={() => {
+                            dispatch(setClientName(name))
+                            dispatch(setClientEmail(email))
+                            dispatch(setClientPhone(phone))
+                            dispatch(setClientCreation(formatDate(Date.now())))
+
+                            dispatch(setOpen(true))
+                        }}>
                             СОЗДАТЬ
                         </button>
                         <div className='flex w-[520px] h-10 bg-white items-center ml-10 p-2 pt-2.5 border border-gray-400 rounded-md focus:border-gray-400'>
