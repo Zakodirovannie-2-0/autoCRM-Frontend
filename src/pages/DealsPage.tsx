@@ -30,6 +30,9 @@ const DealsPage: React.FC = () => {
     const [confirmedWidgets, setConfirmedWidgets] = useState<Widget[]>([]);
     const [isDragging, setIsDragging] = useState<boolean>(false);
 
+    // console.log('Widgets: ', widgets)
+    // console.log('Confirmed widgets: ', confirmedWidgets)
+
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);  // Состояние для открытия модального окна
 
     const [serviceName, setServiceName] = useState<string>("");
@@ -113,6 +116,27 @@ const DealsPage: React.FC = () => {
         setSearchQuery(e.target.value);
     };
 
+    const filter = (widget : Widget) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const contentText = React.Children.toArray(widget.content)[0].props.children
+            .map((child: React.ReactNode) => {
+                if (React.isValidElement(child) && child.props.children) {
+                    return child.props.children;
+                }
+                return null;
+            })
+            .filter(Boolean)
+            .join(' ')
+            .toLowerCase();
+
+
+        return contentText.includes(searchQuery.toLowerCase());
+    }
+
+    const filteredWidgets = widgets.filter((widget) => filter(widget));
+    const filteredConfirmWidgets = confirmedWidgets.filter((widget) => filter(widget))
+
     return (
         <div className="w-full mx-auto bg-main-bg bg-cover overflow-auto">
             <div className="flex min-h-screen">
@@ -153,7 +177,7 @@ const DealsPage: React.FC = () => {
                                         >
                                             <h2 className="text-lg font-semibold pt-5">Неподтверждено</h2>
                                             <div className="widgets">
-                                                {widgets.map((widget, index) => (
+                                                {filteredWidgets.map((widget, index) => (
                                                     <Draggable key={widget.id} draggableId={widget.id} index={index}>
                                                         {(provided) => (
                                                             <div
@@ -183,7 +207,7 @@ const DealsPage: React.FC = () => {
                                         >
                                             <h2 className="text-lg font-semibold pt-5">Подтверждено</h2>
                                             <div className="widgets">
-                                                {confirmedWidgets.map((widget, index) => (
+                                                {filteredConfirmWidgets.map((widget, index) => (
                                                     <Draggable key={widget.id} draggableId={widget.id} index={index}>
                                                         {(provided) => (
                                                             <div
