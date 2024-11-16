@@ -14,6 +14,7 @@ module.exports = {
         'xm': '448px'
       },
       maxWidth: {
+        'xsm': '400px',
         'xm': '37.5rem',
         'sxl': '800px',
       },
