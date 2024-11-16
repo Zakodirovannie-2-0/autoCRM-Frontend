@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .btn {
+    @apply hover:bg-white hover:text-black hover:shadow-lg;
+  }
+}
+
 :root {
   font-family: Golos Text, sans-serif;
   font-size: 16px;

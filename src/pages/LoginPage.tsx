@@ -88,15 +88,16 @@ const LoginPage: React.FC = () => {
                         <button
                             type="submit"
                             onClick={handleSubmit}
-                            className={'text-center text-lg font-semibold button py-2 px-11 bg-[#4C2A21] rounded-md text-[#FFFFFF]'}
+                            className={'text-center text-lg font-semibold button py-2 px-11 bg-[#4C2A21] rounded-md text-[#FFFFFF] btn'}
                         >
                             Войти
                         </button>
 
-                        <a href="/recovery" className={'text-center text-lg font-semibold py-2 px-16 bg-[#4C2A21] rounded-md text-[#FFFFFF]'}>
+                        <a href="/recovery" className={'text-center text-lg font-semibold py-2 px-16 bg-[#4C2A21] rounded-md text-[#FFFFFF] btn'}>
                             Забыли пароль?
                         </a>
                     </div>
+                        <a href="/signup" className={'text-center text-xl text-black opacity-30 hover:opacity-100 flex justify-center mt-5'}>Регистрация</a>
                     </form>
                 </div>
             </div>
