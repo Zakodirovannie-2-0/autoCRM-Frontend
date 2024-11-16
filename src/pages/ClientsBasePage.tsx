@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Header from "../components/header.tsx";
 import ClientsTable from "../components/ClientsTable.tsx";
 import Sidebar from "../components/Sidebar.tsx";
@@ -10,6 +10,7 @@ const ClientsBasePage : React.FC = () => {
     const fixedElement = document.querySelector('aside') as HTMLElement | null;
     const stopBlock = document.querySelector('footer') as HTMLElement | null;
     const selectBar = document.querySelector('select') as HTMLElement | null;
+    const [selectedClients, setSelectedClients] = useState<number[]>([]);
     
     useEffect(() => {
         if (fixedElement && stopBlock) {
@@ -29,6 +30,18 @@ const ClientsBasePage : React.FC = () => {
             });
         }
     }, [fixedElement, stopBlock, selectBar])
+
+    // Состояние для строки поиска
+    const [searchQuery, setSearchQuery] = useState<string>("");
+
+    // Функция для обработки ввода в поле поиска
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
+    };
+
+    const handleSelectionChange = (selected: number[]) => {
+        setSelectedClients(selected);
+    };
     
 
     return (
@@ -48,13 +61,15 @@ const ClientsBasePage : React.FC = () => {
                                 placeholder="ПОИСК"
                                 className="ml-1 h-9 w-full px-4 py-2 text-gray-700 font-light font-mont placeholder-gray-500
                             focus:outline-none "
+                                onChange={handleSearchChange}
+                                value={searchQuery}
                             />
                         </div>
                     </div>
 
                     <div className="flex-1 p-4 overflow-y-auto ml-14">
-                        <ClientsTable/>
-                        <ActionButtons/>
+                        <ClientsTable searchQuery={searchQuery} onSelectionChange={handleSelectionChange} />
+                        <ActionButtons selectedClients={selectedClients}/>
                     </div>
                 </div>
             </div>

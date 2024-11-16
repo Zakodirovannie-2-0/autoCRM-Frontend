@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Pagination from "./Pagination.tsx";
 
 interface Item {
@@ -17,35 +17,86 @@ const items: Item[] = Array.from({ length: 100 }, (_, i) => ({
     creation_date: '08.09.2024'
 }));
 
-const ClientsTable: React.FC = () => {
+type propTypes = {
+    searchQuery: string;
+    onSelectionChange: (selectedClients: number[]) => void;
+}
+
+const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange}) => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage, setItemsPerPage] = useState<number>(10);
+    const [selectedClients, setSelectedClients] = useState<Set<number>>(new Set());
 
-    // Рассчитываем индекс первой и последней записи для текущей страницы
+    useEffect(() => {
+        if (selectedClients.size > 0) {
+            onSelectionChange(Array.from(selectedClients));
+        }
+    }, [selectedClients, onSelectionChange]);
+
+    // Filter the clients based on the search query
+    const filteredClients = items.filter((item) => {
+        // Extract all string-type properties from the item object
+        const contentText = Object.values(item)
+            .filter(value => typeof value === 'string')
+            .join(' ')
+            .toLowerCase();
+
+        return contentText.includes(searchQuery.toLowerCase());
+    });
+
+    // Calculate the indices for pagination
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredClients.slice(indexOfFirstItem, indexOfLastItem);
 
-    // Обработчики для смены страницы и изменения количества записей на странице
+    // Handlers for page and item per page changes
     const handlePageChange = (pageNumber: number) => {
         setCurrentPage(pageNumber);
     };
 
     const handleItemsPerPageChange = (newItemsPerPage: number) => {
         setItemsPerPage(newItemsPerPage);
-        setCurrentPage(1); // Сброс на первую страницу при изменении количества записей
+        setCurrentPage(1); // Reset to first page on items per page change
     };
 
-    // Количество страниц
-    const totalPages = Math.ceil(items.length / itemsPerPage);
+    // Handler for selecting/deselecting a client
+    const handleSelectClient = (id: number) => {
+        setSelectedClients(prevSelected => {
+            const newSelected = new Set(prevSelected);
+            if (newSelected.has(id)) {
+                newSelected.delete(id);
+            } else {
+                newSelected.add(id);
+            }
+            return newSelected;
+        });
+    };
 
-    return <>
+    // Handler for selecting/deselecting all clients
+    const handleSelectAll = () => {
+        if (selectedClients.size === currentItems.length) {
+            setSelectedClients(new Set());
+        } else {
+            const allIds = currentItems.map(item => item.id);
+            setSelectedClients(new Set(allIds));
+        }
+    };
+
+    // Total pages calculation based on filtered results
+    const totalPages = Math.ceil(filteredClients.length / itemsPerPage);
+
+    return (
         <div className="max-w-[107.5rem] w-full rounded-3xl bg-white bg-opacity-80 items-center min-h-[36rem] mt-3">
             <table className="max-w-[107.5rem] table-auto w-full h-full rounded-2xl">
                 <thead>
-                <tr className="text-black text-lg border-b border-black ">
+                <tr className="text-black text-lg border-b border-black">
                     <th className="text-center pt-8 pb-3 pl-5">
-                        <input type="checkbox" className="form-checkbox h-5 w-5 text-gray-600"/>
+                        <input
+                            type="checkbox"
+                            className="form-checkbox h-5 w-5 text-gray-600"
+                            onChange={handleSelectAll}
+                            checked={selectedClients.size === currentItems.length && currentItems.length > 0}
+                        />
                     </th>
                     <th className="text-center pt-8 pb-3 pl-5">ID</th>
                     <th className="text-left pt-8 pb-3 pl-5">Клиент</th>
@@ -54,11 +105,16 @@ const ClientsTable: React.FC = () => {
                     <th className="text-left pt-8 pb-3 pl-5">Дата создания</th>
                 </tr>
                 </thead>
-                <tbody style={{maxHeight: '28rem'}}>
+                <tbody style={{ maxHeight: '28rem' }}>
                 {currentItems.map((item) => (
                     <tr className="text-lg h-[2.6rem] border-b border-gray-600" key={item.id}>
                         <td className="text-center pl-5 pt-4">
-                            <input type="checkbox" className="form-checkbox h-5 w-5 text-gray-600"/>
+                            <input
+                                type="checkbox"
+                                className="form-checkbox h-5 w-5 text-gray-600"
+                                onChange={() => handleSelectClient(item.id)}
+                                checked={selectedClients.has(item.id)}
+                            />
                         </td>
                         <td className="text-center pl-5 pt-2">{item.id}</td>
                         <td className="text-left pl-5 pt-2">{item.name}</td>
@@ -77,7 +133,8 @@ const ClientsTable: React.FC = () => {
                 onItemsPerPageChange={handleItemsPerPageChange}
             />
         </div>
-    </>;
+    );
 };
+
 
 export default ClientsTable;
