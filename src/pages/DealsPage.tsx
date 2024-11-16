@@ -29,7 +29,9 @@ const DealsPage: React.FC = () => {
     const [widgets, setWidgets] = useState<Widget[]>(initialWidgets);
     const [confirmedWidgets, setConfirmedWidgets] = useState<Widget[]>([]);
     const [isDragging, setIsDragging] = useState<boolean>(false);
+
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);  // Состояние для открытия модального окна
+
     const [serviceName, setServiceName] = useState<string>("");
     const [clientName, setClientName] = useState<string>("");
     const [time, setTime] = useState<string>("");
