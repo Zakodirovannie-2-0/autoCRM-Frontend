@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar.tsx";
 import ActionButtons from "../components/ActionButtons.tsx";
 import search from '../assets/Clients icons/search icon.png'
 import Footer from "../components/Footer.tsx";
+import ClientCard from "../components/ClientCard.tsx";
 
 const ClientsBasePage : React.FC = () => {
     const fixedElement = document.querySelector('aside') as HTMLElement | null;
@@ -74,6 +75,7 @@ const ClientsBasePage : React.FC = () => {
                 </div>
             </div>
             <Footer />
+            <ClientCard />
         </div>
     );
 };
