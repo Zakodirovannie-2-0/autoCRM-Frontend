@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import Pagination from "./Pagination.tsx";
+import {useAppDispatch} from "../hooks/reduxHooks.ts";
+import {setOpen} from "../redux/ModalSlice/modalSlice.ts";
+import {setClient} from "../redux/ClientSlice/clientSlice.ts";
 
 interface Item {
     id: number;
@@ -26,6 +29,7 @@ const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange}) => 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage, setItemsPerPage] = useState<number>(10);
     const [selectedClients, setSelectedClients] = useState<Set<number>>(new Set());
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (selectedClients.size > 0) {
@@ -107,7 +111,16 @@ const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange}) => 
                 </thead>
                 <tbody style={{ maxHeight: '28rem' }}>
                 {currentItems.map((item) => (
-                    <tr className="text-lg h-[2.6rem] border-b border-gray-600" key={item.id}>
+                    <tr className="text-lg h-[2.6rem] border-b border-gray-600" key={item.id} onClick={() => {
+                        dispatch(setClient({
+                            id: item.id,
+                            name: item.name,
+                            phone: item.phone,
+                            email: item.email,
+                            creation_date: item.creation_date,
+                        }));
+                        dispatch(setOpen(true));
+                    }}>
                         <td className="text-center pl-5 pt-4">
                             <input
                                 type="checkbox"

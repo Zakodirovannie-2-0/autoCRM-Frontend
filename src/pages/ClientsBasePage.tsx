@@ -5,12 +5,18 @@ import Sidebar from "../components/Sidebar.tsx";
 import ActionButtons from "../components/ActionButtons.tsx";
 import search from '../assets/Clients icons/search icon.png'
 import Footer from "../components/Footer.tsx";
+import {useAppDispatch, useAppSelector} from "../hooks/reduxHooks.ts";
+import {setOpen} from "../redux/ModalSlice/modalSlice.ts";
+import ClientCard from "../components/ClientCard.tsx";
+import {setClient} from "../redux/ClientSlice/clientSlice.ts";
 
 const ClientsBasePage : React.FC = () => {
     const fixedElement = document.querySelector('aside') as HTMLElement | null;
     const stopBlock = document.querySelector('footer') as HTMLElement | null;
     const selectBar = document.querySelector('select') as HTMLElement | null;
     const [selectedClients, setSelectedClients] = useState<number[]>([]);
+    const isOpen = useAppSelector((state) => state.modal.isOpen)
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
         if (fixedElement && stopBlock) {
@@ -43,6 +49,19 @@ const ClientsBasePage : React.FC = () => {
         setSelectedClients(selected);
     };
 
+    const handleCreation = () => {
+
+        dispatch(setClient({
+            id: 0,
+            name: '',
+            phone: '',
+            email: '',
+            creation_date: ''
+        }))
+
+        dispatch(setOpen(true))
+    }
+
 
     return (
         <div className='w-full mx-auto bg-main-bg bg-cover overflow-auto'>
@@ -53,7 +72,9 @@ const ClientsBasePage : React.FC = () => {
 
                     <div className='flex py-5 px-8 items-center'>
                         <h1 className="text-3.5xl font-bold ml-9 mr-[5.25rem]">КЛИЕНТЫ</h1>
-                        <button className="bg-[#4C2A21] text-white font-semibold font-mont py-2 px-[2.594rem] rounded-md">СОЗДАТЬ</button>
+                        <button className="bg-[#4C2A21] text-white font-semibold font-mont py-2 px-[2.594rem] rounded-md" onClick={handleCreation}>
+                            СОЗДАТЬ
+                        </button>
                         <div className='flex w-[520px] h-10 bg-white items-center ml-10 p-2 pt-2.5 border border-gray-400 rounded-md focus:border-gray-400'>
                             <img className='w-[1.875rem] h-[1.875rem]' src={search} alt='search icon' />
                             <input
@@ -74,6 +95,7 @@ const ClientsBasePage : React.FC = () => {
                 </div>
             </div>
             <Footer />
+            {isOpen? <ClientCard onClose={()=>dispatch(setOpen(false))}/> : null}
         </div>
     );
 };
