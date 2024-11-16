@@ -18,3 +18,15 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 8px;
+  background-color: #F5D9C4; /* or add it to the track */
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4C2A21;
+  border-radius: 0.5rem;
+}

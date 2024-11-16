@@ -47,7 +47,7 @@ const Profile : React.FC = () => {
             <div className={`min-h-dvh flex flex-col flex-1 ml-10 `}>
                 <Header />
                 <div className={`w-full h-screen flex mx-auto`}>
-                    <div className={`ml-[21.875rem] mt-[9.375rem]`}>
+                    <div className={`ml-[21.875rem] mt-[7.375rem]`}>
                         {Object.entries(user).map(([key, value]) =>
                             <div className='flex flex-col mt-[3.125rem]' key={key}>
                                 <label htmlFor={key} className='text-lg font-bold font-golos'>{key}</label>
@@ -65,7 +65,7 @@ const Profile : React.FC = () => {
                     </div>
                     <div>
                         <div
-                            className={`relative max-w-[31.25rem] max-h-[31.25rem] object-contain ml-[13.75rem] mt-[15rem]`}>
+                            className={`relative max-w-[31.25rem] max-h-[31.25rem] object-contain ml-[13.75rem] mt-[12rem]`}>
                             <img
                                 className={`min-h-[31.25rem] min-w-min`}
                                 src={user.image_url ? user.image_url : image}

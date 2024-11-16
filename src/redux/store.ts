@@ -3,6 +3,7 @@ import authReducer from './AuthSlice/authSlice.ts'
 import modalReducer from './ModalSlice/modalSlice.ts'
 import clientReducer from './ClientSlice/clientSlice.ts'
 import dealReducer from './DealSlice/dealSlice.ts'
+import taskReducer from './TaskSlice/taskSlice.ts'
 // ...
 
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
         modal: modalReducer,
         client: clientReducer,
         deal: dealReducer,
+        task: taskReducer,
     },
 })
 
