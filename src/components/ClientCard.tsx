@@ -15,7 +15,7 @@ const ClientCard: React.FC<propTypes> = ({onClose}) => {
     const clientData = useAppSelector(state => state.client.clientData)
     const dispatch = useAppDispatch();
 
-    const handleSubmit = (event: SubmitEvent) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         //Запрос отправки
         dispatch(setOpen(false))
@@ -23,7 +23,7 @@ const ClientCard: React.FC<propTypes> = ({onClose}) => {
 
     return <>
         {historySelected ? <ClientCardHistory setSelection={handleSelectionChange} onClose={onClose} name={clientData.name}/> :
-            <form
+            <form onSubmit={event => handleSubmit(event)}
                 className={'flex flex-col h-full bg-[#F5D9C4] fixed inset-y-0 z-10 right-0 max-w-xm w-full px-12 py-16'}>
                 <button type={'button'}
                     className="absolute top-2 right-2 py-1 px-2
