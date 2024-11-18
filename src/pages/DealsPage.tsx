@@ -276,7 +276,7 @@ const DealsPage: React.FC = () => {
                     </div>
                     <div className="mt-4">
                         <input
-                            type="time"
+                            type="datetime-local"
                             value={time}
                             onChange={(e) => setTime(e.target.value)}
                             placeholder="Время записи"

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Header from "../components/header.tsx";
 import ClientsTable from "../components/ClientsTable.tsx";
 import Sidebar from "../components/Sidebar.tsx";
@@ -7,16 +7,16 @@ import search from '../assets/Clients icons/search icon.png'
 import Footer from "../components/Footer.tsx";
 import {useAppDispatch, useAppSelector} from "../hooks/reduxHooks.ts";
 import {setOpen} from "../redux/ModalSlice/modalSlice.ts";
-import ClientCard from "../components/ClientCard.tsx";
 import {setClientCreation, setClientEmail, setClientName, setClientPhone} from "../redux/ClientSlice/clientSlice.ts";
 import {formatDate} from "../utils/utils.ts";
 
 const ClientsBasePage : React.FC = () => {
+    const idRef = useRef<number | null>(null);
     const fixedElement = document.querySelector('aside') as HTMLElement | null;
     const stopBlock = document.querySelector('footer') as HTMLElement | null;
     const selectBar = document.querySelector('select') as HTMLElement | null;
     const [selectedClients, setSelectedClients] = useState<number[]>([]);
-    const isOpen = useAppSelector((state) => state.modal.isOpen)
+
     const name = useAppSelector(state => state.client.name)
     const phone = useAppSelector(state => state.client.phone)
     const email = useAppSelector(state => state.client.email)
@@ -86,13 +86,12 @@ const ClientsBasePage : React.FC = () => {
                     </div>
 
                     <div className="flex-1 p-4 overflow-y-auto ml-14">
-                        <ClientsTable searchQuery={searchQuery} onSelectionChange={handleSelectionChange} />
+                        <ClientsTable searchQuery={searchQuery} onSelectionChange={handleSelectionChange} idRef={idRef} />
                         <ActionButtons selectedClients={selectedClients}/>
                     </div>
                 </div>
             </div>
             <Footer />
-            {isOpen? <ClientCard onClose={()=>dispatch(setOpen(false))}/> : null}
         </div>
     );
 };

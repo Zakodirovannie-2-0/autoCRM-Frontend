@@ -54,7 +54,7 @@ const Register: React.FC = () => {
         };
 
         const isPasswordValid = (password: string, fullName: string, email: string) => {
-            if (password.length <= 8) {
+            if (password.length < 8) {
                 return { valid: false, error: 'Пароль должен быть длиннее или равен 8 символам' };
             }
             if (commonPasswords.includes(password)) {
@@ -87,7 +87,7 @@ const Register: React.FC = () => {
                 return;
             }
 
-            await signup(full_name, email, password, re_password);
+            await signup(full_name, email, password);
             setSubmitted(true);
             setError(false);
             navigate('/');

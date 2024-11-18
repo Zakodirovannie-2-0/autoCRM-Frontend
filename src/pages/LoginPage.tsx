@@ -1,14 +1,14 @@
 import '../index.css'
 import React, {useState} from "react";
-import {AxiosError} from "axios";
-// import {setAuth} from "../redux/AuthSlice/authSlice.ts";
-// import {useAppDispatch} from "../hooks/reduxHooks.ts";
-// import {login} from '../api/api.auth.ts'
+import {AxiosError, AxiosResponse} from "axios";
+import {setAuth} from "../redux/AuthSlice/authSlice.ts";
+import {useAppDispatch} from "../hooks/reduxHooks.ts";
+import {login} from '../api/api.auth.ts'
 
-// interface LoginResponse {
-//     accessToken: string;
-//     refreshToken: string;
-// }
+interface LoginResponse {
+    access: string;
+    refresh: string;
+}
 
 const LoginPage: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -16,18 +16,27 @@ const LoginPage: React.FC = () => {
     const [isLogin, setIsLogin] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
-    // const dispatch = useAppDispatch();
+    const dispatch = useAppDispatch();
 
     const handleSubmit = async(event:React.FormEvent) => {
         event.preventDefault();
         try {
-            // const response: AxiosResponse<LoginResponse> = await login(email, password);
-            setIsLogin(true)
-            setIsError(false)
-            // localStorage.setItem('access-token', response.data.accessToken)
-            // localStorage.setItem('refresh-token', response.data.refreshToken)
-            // dispatch(setAuth(response.data.accessToken !== null))
-            window.location.assign('/clients')
+            await login(email, password).then((response: AxiosResponse<LoginResponse>) => {
+                console.log(response);
+                setIsLogin(true)
+                setIsError(false)
+                localStorage.setItem('access-token', response.data.access)
+                localStorage.setItem('refresh-token', response.data.refresh)
+                dispatch(setAuth(response.data.access !== null))
+                window.location.assign('/clients')
+            }).catch(e => {
+                setIsError(true);
+                setErrorMessage(
+                    e.response.data.detail === 'Не найдено активной учетной записи с указанными данными'
+                        ? 'Неправильный E-mail или пароль'
+                        : "Произошла непредвиденная ошибка"
+                );
+            })
         } catch (e) {
             if (e instanceof AxiosError && e.response) {
                 if (e.response.status === 401 || e.response.status === 400) {

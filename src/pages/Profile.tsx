@@ -4,6 +4,7 @@ import Footer from "../components/Footer.tsx";
 import {getMyInfo} from "../api/api.auth.ts";
 import image from "../assets/profileImg.svg";
 import Header from "../components/header.tsx";
+import {formatDateTime} from "../utils/utils.ts";
 
 interface inputs {
     'ФИО': string,
@@ -26,13 +27,14 @@ const Profile : React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-        const response = await getMyInfo();
-            return setUser({
-                'ФИО': response.data.full_name,
-                'Должность': response.data.role,
+        await getMyInfo().then((response) => {
+            setUser({
+                'ФИО': response.data.last_name + ' ' + response.data.first_name,
+                'Должность': response.data.is_owner,
                 'E-mail': response.data.email,
-                'Телефон': response.data.phone,
-                'Дата регистрации': response.data.creation_date
+                'Телефон': response.data.phone_number,
+                'Дата регистрации': formatDateTime(response.data.date_joined)
+        });
         }); } catch (error) {
                 console.log(error);
             }

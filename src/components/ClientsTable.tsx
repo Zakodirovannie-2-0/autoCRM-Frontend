@@ -1,40 +1,33 @@
-import React, {useEffect, useState} from 'react';
+import React, {MutableRefObject, useEffect, useState} from 'react';
 import Pagination from "./Pagination.tsx";
-import {useAppDispatch} from "../hooks/reduxHooks.ts";
+import {useAppDispatch, useAppSelector} from "../hooks/reduxHooks.ts";
 import {setOpen} from "../redux/ModalSlice/modalSlice.ts";
-import {
-    setClientCreation,
-    setClientEmail,
-    setClientName,
-    setClientPhone
-} from "../redux/ClientSlice/clientSlice.ts";
+import {getClients} from "../api/api.auth.ts";
+import {AxiosResponse} from "axios";
+import ClientCard from "./ClientCard.tsx";
 
-interface Item {
+export interface Client {
     id: number;
-    name: string;
-    phone: string;
+    first_name: string;
+    last_name: string;
+    phone_number: string;
     email: string;
     creation_date: string;
 }
 
-const items: Item[] = Array.from({ length: 100 }, (_, i) => ({
-    id: i + 1,
-    name: 'Стрижак Мария Олеговна',
-    phone: '+7 (919) --- --',
-    email: 'maria.strizhak1@mail.ru',
-    creation_date: '08.09.2024'
-}));
-
 type propTypes = {
     searchQuery: string;
     onSelectionChange: (selectedClients: number[]) => void;
+    idRef: MutableRefObject<number | null>;
 }
 
-const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange}) => {
+const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange, idRef}) => {
+    const [clients, setClients] = useState<Client[]>([])
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage, setItemsPerPage] = useState<number>(10);
     const [selectedClients, setSelectedClients] = useState<Set<number>>(new Set());
     const dispatch = useAppDispatch()
+    const isOpen = useAppSelector((state) => state.modal.isOpen)
 
     useEffect(() => {
         if (selectedClients.size > 0) {
@@ -42,8 +35,17 @@ const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange}) => 
         }
     }, [selectedClients, onSelectionChange]);
 
+    useEffect(() => {
+        const fetchData = async() => {
+            await getClients().then((response : AxiosResponse<Client[]>) => {
+                setClients(response.data);
+            });
+        }
+        fetchData()
+    }, []);
+
     // Filter the clients based on the search query
-    const filteredClients = items.filter((item) => {
+    const filteredClients = clients.filter((item) => {
         // Extract all string-type properties from the item object
         const contentText = Object.values(item)
             .filter(value => typeof value === 'string')
@@ -117,10 +119,7 @@ const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange}) => 
                 <tbody style={{ maxHeight: '28rem' }}>
                 {currentItems.map((item) => (
                     <tr className="text-lg h-[2.6rem] border-b border-gray-600" key={item.id} onClick={() => {
-                        dispatch(setClientName(item.name))
-                        dispatch(setClientEmail(item.email))
-                        dispatch(setClientPhone(item.phone))
-                        dispatch(setClientCreation(item.creation_date))
+                        idRef.current = item.id;
                         dispatch(setOpen(true));
                     }}>
                         <td className="text-center pl-5 pt-4">
@@ -132,8 +131,8 @@ const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange}) => 
                             />
                         </td>
                         <td className="text-center pl-5 pt-2">{item.id}</td>
-                        <td className="text-left pl-5 pt-2">{item.name}</td>
-                        <td className="text-left pl-5 pt-2">{item.phone}</td>
+                        <td className="text-left pl-5 pt-2">{item.last_name + ' ' + item.first_name}</td>
+                        <td className="text-left pl-5 pt-2">{item.phone_number}</td>
                         <td className="text-left pl-5 pt-2">{item.email}</td>
                         <td className="text-left pl-5 pt-2">{item.creation_date}</td>
                     </tr>
@@ -147,6 +146,7 @@ const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange}) => 
                 onPageChange={handlePageChange}
                 onItemsPerPageChange={handleItemsPerPageChange}
             />
+            {isOpen? <ClientCard onClose={()=>dispatch(setOpen(false))} idRef={idRef}/> : null}
         </div>
     );
 };

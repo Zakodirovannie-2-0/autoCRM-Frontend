@@ -1,27 +1,57 @@
-import React, {useState} from "react";
+import React, {RefObject, useEffect, useState} from "react";
 import ClientCardHistory from "./ClientCardHistory.tsx";
-import {useAppDispatch, useAppSelector} from "../hooks/reduxHooks.ts";
+import {useAppDispatch} from "../hooks/reduxHooks.ts";
 import {setOpen} from "../redux/ModalSlice/modalSlice.ts";
-import {setClientEmail, setClientName, setClientPhone} from "../redux/ClientSlice/clientSlice.ts";
+import {createClient, getClientDetails, patchClient} from "../api/api.auth.ts";
+import {AxiosResponse} from "axios";
+import {Client} from "./ClientsTable.tsx";
+import {formatDate} from "../utils/utils.ts";
 
 type propTypes = {
     onClose: ()=>void;
+    idRef: RefObject<number | null>;
 }
 
-const ClientCard: React.FC<propTypes> = ({onClose}) => {
+const ClientCard: React.FC<propTypes> = ({onClose, idRef}) => {
     const [historySelected, setHistorySelected] = useState(false)
     const handleSelectionChange = (selected: boolean) => {
         setHistorySelected(selected);
     };
-    const name = useAppSelector(state => state.client.name)
-    const phone = useAppSelector(state => state.client.phone)
-    const email = useAppSelector(state => state.client.email)
-    const creation_date = useAppSelector(state => state.client.creation_date)
+    // const name = useAppSelector(state => state.client.name)
+    // const phone = useAppSelector(state => state.client.phone)
+    // const email = useAppSelector(state => state.client.email)
+    const [name, setName] = useState<string>('')
+    const [phone, setPhone] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [creationDate, setCreationDate] = useState<string>(formatDate(Date.now()))
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (idRef.current === null) return
+            await getClientDetails(idRef.current).then((response : AxiosResponse<Client>) => {
+                const data = response.data;
+
+                setName(data.last_name+ ' ' + data.first_name);
+                setPhone(data.phone_number);
+                setEmail(data.email);
+                setCreationDate(data.creation_date)
+            })
+        }
+
+        fetchData()
+    }, [idRef]);
+
+
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        //Запрос отправки
+        if (idRef.current === null) {
+            createClient(name, email, phone)
+        } else {
+            patchClient(name, email, phone, idRef.current)
+        }
+
         dispatch(setOpen(false))
     }
 
@@ -38,7 +68,7 @@ const ClientCard: React.FC<propTypes> = ({onClose}) => {
                     X
                 </button>
                 <input className={'text-2xl font-semibold text-black bg-transparent'} value={name?name:"ФИО"}
-                    onChange={() => dispatch(setClientName(name))}
+                    onChange={(e) => setName(e.target.value)} required
                 />
                 <div className={'flex flex-row mt-7 gap-10'}>
                     <button
@@ -51,22 +81,22 @@ const ClientCard: React.FC<propTypes> = ({onClose}) => {
                 <div className='flex flex-col mt-10'>
                     <label className='text-lg font-bold font-golos'>E-mail</label>
                     <input className='w-[31.25rem] h-10 mt-2.5 text-lg font-medium font-golos
-                        rounded-md p-2 disabled:bg-[#FFFFFF] focus:outline-none shadow-xl'
-                    value={email} onChange={() => dispatch(setClientEmail(email))} type={"email"}
+                        rounded-md p-2 disabled:bg-[#FFFFFF] focus:outline-none shadow-xl' required
+                    value={email} onChange={(e) => setEmail(e.target.value)} type={"email"}
                     />
                 </div>
                 <div className='flex flex-col mt-10'>
                     <label className='text-lg font-bold font-golos'>Телефон</label>
                     <input className='w-[31.25rem] h-10 mt-2.5 text-lg font-medium font-golos
-                        rounded-md p-2 disabled:bg-[#FFFFFF] focus:outline-none shadow-xl'
-                    value={phone} onChange={() => dispatch(setClientPhone(phone))} type={"tel"}
+                        rounded-md p-2 disabled:bg-[#FFFFFF] focus:outline-none shadow-xl' required
+                    value={phone} onChange={(e) => setPhone(e.target.value)} type={"tel"}
                     />
                 </div>
                 <div className='flex flex-col mt-10'>
                     <label className='text-lg font-bold font-golos'>Дата создания</label>
                     <input className='w-[31.25rem] h-10 mt-2.5 text-lg font-medium font-golos
                         rounded-md p-2 disabled:bg-[#FFFFFF] focus:outline-none shadow-xl'
-                    value={creation_date} readOnly
+                    value={creationDate} readOnly
                     />
                 </div>
                 <div className='flex flex-col mt-10'>
