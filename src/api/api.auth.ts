@@ -7,8 +7,7 @@ export const signup = (full_name:string, email:string, password:string) => {
         first_name: name,
         last_name: surname,
         email: email,
-        password: password,
-        role: 'Сотрудник'
+        password: password
     });
 }
 
