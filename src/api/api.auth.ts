@@ -3,7 +3,7 @@ import {instance} from "./api.config.ts";
 
 export const signup = (full_name:string, email:string, password:string) => {
     const [surname, name] = full_name.split(' ')
-    return axios.post("http://localhost:8000/accounts/user/", {
+    return axios.post("http://85.192.29.94:8000/accounts/user/", {
         first_name: name,
         last_name: surname,
         email: email,
@@ -12,7 +12,7 @@ export const signup = (full_name:string, email:string, password:string) => {
 }
 
 export const login = async (email:string, password:string) => {
-    return await axios.post("http://localhost:8000/api/token/", {
+    return await axios.post("http://85.192.29.94:8000/api/token/", {
         email,
         password
     })

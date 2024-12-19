@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const instance = axios.create({
     withCredentials: true,
-    baseURL: "http://localhost:8000",
+    baseURL: "http://85.192.29.94:8000",
 });
 
 
