@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -19,7 +19,7 @@ export default {
         'sxl': '800px',
       },
       backgroundImage: {
-        'main-bg': "url('/src/assets/background.png')"
+        'main-bg': "url('src/assets/background.png')"
       },
       fontFamily: {
         'golos': 'Golos Text, sans-serif',
