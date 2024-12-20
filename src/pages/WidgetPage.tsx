@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import sideImage from '../assets/sideImg.png'
 import {getServices} from "../api/api.ts";
+// import { postWidget} from "../api/api.ts";
 
 interface Service {
     id: number;
@@ -9,12 +10,21 @@ interface Service {
     price: number;
 }
 
+export interface FormDataWidget {
+    full_name: string;
+    email: string
+    phone: string
+    service_id: number
+    date: string
+    time: string
+}
+
 const WidgetPage: React.FC = () => {
     const [formData, setFormData] = useState({
-        fullName: '',
+        full_name: '',
         email: '',
         phone: '',
-        service: '',
+        service_id: 0,
         date: '',
         time: '',
     });
@@ -40,8 +50,14 @@ const WidgetPage: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        if (!formData.date || !formData.time) {
+            console.error('Дата и время обязательны');
+            return;
+        }
+
+        // postWidget(formData)
         console.log('Form Data Submitted:', formData);
-        // Add your form submission logic here
+        window.location.reload();
     };
     return (
         <div className="bg-main-bg">
@@ -52,13 +68,13 @@ const WidgetPage: React.FC = () => {
                     <h1 className="text-4xl font-bold text-center mb-6">Запись на услуги</h1>
 
                     <div className="mb-4">
-                        <label htmlFor="fullName" className="block text-lg font-medium text-black">
+                        <label htmlFor="full_name" className="block text-lg font-medium text-black">
                             ФИО
                         </label>
                         <input
                             type="text"
-                            id="fullName"
-                            value={formData.fullName}
+                            id="full_name"
+                            value={formData.full_name}
                             onChange={handleChange}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                         />
@@ -91,18 +107,16 @@ const WidgetPage: React.FC = () => {
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="service" className="block text-lg font-medium text-black">
+                        <label htmlFor="service_id" className="block text-lg font-medium text-black">
                             Услуги для записи
                         </label>
                         <select
-                            id="service"
+                            id="service_id"
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                            value={formData.service}
+                            value={formData.service_id}
                             onChange={handleChange}
                         >
                             <option value="">Выберите услугу</option>
-                            <option value="service1">Услуга 1</option>
-                            <option value="service2">Услуга 2</option>
                             {services.map((service, index) => (
                                 <option key={index} value={service.id}>{service.name}</option>
                             ))}

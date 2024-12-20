@@ -1,8 +1,22 @@
 import axios from "axios";
 import {instance} from "./api.config.ts";
+import {FormDataWidget} from "../pages/WidgetPage.tsx";
 
 export const getServices = () => {
     return axios.get('http://85.192.29.94:8000/crm/service/')
+}
+
+export const postWidget = (formData : FormDataWidget) => {
+    const [last_name, first_name] = formData.full_name.split(' ');
+    const dateTime = `${formData.date} ${formData.time}`;
+    return axios.post(`http://85.192.29.94:8000/crm/widget/`, {
+        first_name,
+        last_name,
+        email: formData.email,
+        phone: formData.phone,
+        service_id: formData.service_id,
+        date: dateTime
+    })
 }
 
 export const signup = (full_name:string, email:string, password:string) => {
