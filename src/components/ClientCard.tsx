@@ -53,6 +53,7 @@ const ClientCard: React.FC<propTypes> = ({onClose, idRef}) => {
         }
 
         dispatch(setOpen(false))
+        window.location.reload()
     }
 
     return <>

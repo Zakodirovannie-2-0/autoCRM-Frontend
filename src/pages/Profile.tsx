@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Sidebar from "../components/Sidebar.tsx";
 import Footer from "../components/Footer.tsx";
-import {getMyInfo} from "../api/api.auth.ts";
+import {getMyInfo, logout} from "../api/api.auth.ts";
 import image from "../assets/profileImg.svg";
 import Header from "../components/header.tsx";
-import {formatDateTime} from "../utils/utils.ts";
 
 interface inputs {
     'ФИО': string,
@@ -33,7 +32,7 @@ const Profile : React.FC = () => {
                 'Должность': response.data.is_owner,
                 'E-mail': response.data.email,
                 'Телефон': response.data.phone_number,
-                'Дата регистрации': formatDateTime(response.data.date_joined)
+                'Дата регистрации': response.data.date_joined
         });
         }); } catch (error) {
                 console.log(error);
@@ -63,6 +62,11 @@ const Profile : React.FC = () => {
                 rounded-md text-[#FFFFFF] mt-20 hover:bg-[#ffffff] hover:text-[#000000] mb-10'
                                 onClick={() => window.location.assign('/changePassword')}>
                             Изменить пароль
+                        </button>
+                        <button className='text-center text-lg font-semibold button py-2 px-11 bg-[#4C2A21]
+                rounded-md text-[#FFFFFF] mt-20 hover:bg-[#ffffff] hover:text-[#000000] mb-10'
+                                onClick={() => logout()}>
+                            Выйти
                         </button>
                     </div>
                     <div>

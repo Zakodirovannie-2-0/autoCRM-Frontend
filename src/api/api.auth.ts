@@ -27,6 +27,7 @@ export const refreshToken = () => {
 
 export const logout = () => {
     localStorage.removeItem('access-token')
+    window.location.assign('/')
 }
 
 export const getMyInfo = () => {
@@ -46,6 +47,7 @@ export const getClients = () => {
 export const getClientDetails = (id: any) => {
     return instance.get(`/accounts/customer/${id}/`)
 }
+
 export const createClient = (full_name:string, email:string, phone_number:string) => {
     const [last_name, first_name] = full_name.split(' ');
     return instance.post(`/accounts/customer/`, {
