@@ -1,6 +1,10 @@
 import axios from "axios";
 import {instance} from "./api.config.ts";
 
+export const getServices = () => {
+    return axios.get('http://85.192.29.94:8000/crm/service/')
+}
+
 export const signup = (full_name:string, email:string, password:string) => {
     const [surname, name] = full_name.split(' ')
     return axios.post("http://85.192.29.94:8000/accounts/user/", {

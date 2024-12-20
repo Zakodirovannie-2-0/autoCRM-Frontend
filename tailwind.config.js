@@ -27,6 +27,7 @@ module.exports = {
       },
       fontSize: {
         '3.5xl': '2rem',
+        '4xl': '3rem'
       },
       colors: {
         transparent: 'transparent',
