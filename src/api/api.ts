@@ -67,6 +67,13 @@ export const patchClient = (full_name:string, email:string, phone_number:string,
     })
 }
 
+export const deleteClients = (ids: number[]) => {
+    ids.map((id) => {
+        instance.delete(`/accounts/customer/${id}/`)
+    });
+    window.location.reload()
+}
+
 export const getWidgets = (id : any = 1,) => {
     return instance.get(`/crm/project/${id}/orders/`)
 }

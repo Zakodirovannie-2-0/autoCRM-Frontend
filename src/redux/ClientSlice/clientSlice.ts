@@ -6,6 +6,7 @@ interface ClientState {
     phone: string;
     email: string;
     creation_date: string;
+    id: number[];
 }
 
 // Define the initial state using that type
@@ -14,6 +15,7 @@ const initialState: ClientState = {
     phone: '',
     email: '',
     creation_date: '',
+    id: [],
 }
 
 export const clientSlice = createSlice({
@@ -33,8 +35,13 @@ export const clientSlice = createSlice({
         setClientCreation: (state, action: PayloadAction<string>) => {
             state.creation_date = action.payload;
         },
+        setClientIds: (state, action: PayloadAction<number[]>) => {
+            state.id = action.payload
+        }
     },
 })
 
-export const { setClientName, setClientEmail, setClientPhone, setClientCreation } = clientSlice.actions
+export const { setClientName, setClientEmail,
+    setClientPhone, setClientCreation,
+    setClientIds} = clientSlice.actions
 export default clientSlice.reducer

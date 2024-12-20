@@ -3,7 +3,7 @@ import React, {useState} from "react";
 import {AxiosError, AxiosResponse} from "axios";
 import {setAuth} from "../redux/AuthSlice/authSlice.ts";
 import {useAppDispatch} from "../hooks/reduxHooks.ts";
-import {login} from '../api/api.auth.ts'
+import {login} from '../api/api.ts'
 
 interface LoginResponse {
     access: string;

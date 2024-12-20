@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import { signup } from "../api/api.auth.ts";
+import { signup } from "../api/api.ts";
 import { useNavigate } from "react-router-dom";
 
 interface FormData {

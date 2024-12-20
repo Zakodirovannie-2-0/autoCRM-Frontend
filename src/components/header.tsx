@@ -3,7 +3,7 @@ import profile from '../assets/Header icons/profile icon.png'
 import logo from '../assets/logo.png'
 import notifications from '../assets/Header icons/notifications icon.png'
 import NotifModal from "./NotifModal.tsx";
-import {getMyInfo} from "../api/api.auth.ts";
+import {getMyInfo} from "../api/api.ts";
 
 const Header: React.FC = () => {
     const notificationModal = document.querySelector('.notifications ul li')

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Sidebar from "../components/Sidebar.tsx";
 import Footer from "../components/Footer.tsx";
-import {getMyInfo, logout} from "../api/api.auth.ts";
+import {getMyInfo, logout} from "../api/api.ts";
 import image from "../assets/profileImg.svg";
 import Header from "../components/header.tsx";
 

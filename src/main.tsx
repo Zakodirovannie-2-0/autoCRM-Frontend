@@ -22,7 +22,7 @@ const router = createBrowserRouter(
 
             <Route path="/" element={<LoginPage />} />
             <Route path='/signup' element={<Register />} />
-            <Route path='/accounting' element={<Accounting />} />
+
             <Route path='' element = {<PrivateRoute />}>
                 <Route path={'/clients'} element={<ClientsBasePage />} />
                 <Route path="/deals" element={<DealsPage />} />
@@ -30,6 +30,7 @@ const router = createBrowserRouter(
                 <Route path='/changePassword' element={<ChangePassword />} />
                 <Route path='/profile' element={<Profile />} />
                 <Route path='/tasks' element={<TasksBoard />} />
+                <Route path='/accounting' element={<Accounting />} />
             </Route>
         </Route>
     )

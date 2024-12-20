@@ -15,7 +15,6 @@ const ClientsBasePage : React.FC = () => {
     const fixedElement = document.querySelector('aside') as HTMLElement | null;
     const stopBlock = document.querySelector('footer') as HTMLElement | null;
     const selectBar = document.querySelector('select') as HTMLElement | null;
-    const [selectedClients, setSelectedClients] = useState<number[]>([]);
 
     const name = useAppSelector(state => state.client.name)
     const phone = useAppSelector(state => state.client.phone)
@@ -47,10 +46,6 @@ const ClientsBasePage : React.FC = () => {
     // Функция для обработки ввода в поле поиска
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
-    };
-
-    const handleSelectionChange = (selected: number[]) => {
-        setSelectedClients(selected);
     };
 
     return (
@@ -86,8 +81,8 @@ const ClientsBasePage : React.FC = () => {
                     </div>
 
                     <div className="flex-1 p-4 overflow-y-auto ml-14">
-                        <ClientsTable searchQuery={searchQuery} onSelectionChange={handleSelectionChange} idRef={idRef} />
-                        <ActionButtons selectedClients={selectedClients}/>
+                        <ClientsTable searchQuery={searchQuery} idRef={idRef} />
+                        <ActionButtons/>
                     </div>
                 </div>
             </div>

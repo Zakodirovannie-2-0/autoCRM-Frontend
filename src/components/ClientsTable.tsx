@@ -2,9 +2,10 @@ import React, {MutableRefObject, useEffect, useState} from 'react';
 import Pagination from "./Pagination.tsx";
 import {useAppDispatch, useAppSelector} from "../hooks/reduxHooks.ts";
 import {setOpen} from "../redux/ModalSlice/modalSlice.ts";
-import {getClients} from "../api/api.auth.ts";
+import {getClients} from "../api/api.ts";
 import {AxiosResponse} from "axios";
 import ClientCard from "./ClientCard.tsx";
+import {setClientIds} from "../redux/ClientSlice/clientSlice.ts";
 
 export interface Client {
     id: number;
@@ -17,11 +18,10 @@ export interface Client {
 
 type propTypes = {
     searchQuery: string;
-    onSelectionChange: (selectedClients: number[]) => void;
     idRef: MutableRefObject<number | null>;
 }
 
-const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange, idRef}) => {
+const ClientsTable: React.FC<propTypes> = ({searchQuery, idRef}) => {
     const [clients, setClients] = useState<Client[]>([])
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage, setItemsPerPage] = useState<number>(10);
@@ -29,11 +29,6 @@ const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange, idRe
     const dispatch = useAppDispatch()
     const isOpen = useAppSelector((state) => state.modal.isOpen)
 
-    useEffect(() => {
-        if (selectedClients.size > 0) {
-            onSelectionChange(Array.from(selectedClients));
-        }
-    }, [selectedClients, onSelectionChange]);
 
     useEffect(() => {
         const fetchData = async() => {
@@ -90,6 +85,8 @@ const ClientsTable: React.FC<propTypes> = ({searchQuery, onSelectionChange, idRe
         } else {
             const allIds = currentItems.map(item => item.id);
             setSelectedClients(new Set(allIds));
+            const clientsArray = Array.from(selectedClients)
+            dispatch(setClientIds(clientsArray))
         }
     };
 

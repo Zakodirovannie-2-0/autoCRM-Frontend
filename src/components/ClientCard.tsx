@@ -2,7 +2,7 @@ import React, {RefObject, useEffect, useState} from "react";
 import ClientCardHistory from "./ClientCardHistory.tsx";
 import {useAppDispatch} from "../hooks/reduxHooks.ts";
 import {setOpen} from "../redux/ModalSlice/modalSlice.ts";
-import {createClient, getClientDetails, patchClient} from "../api/api.auth.ts";
+import {createClient, getClientDetails, patchClient} from "../api/api.ts";
 import {AxiosResponse} from "axios";
 import {Client} from "./ClientsTable.tsx";
 import {formatDate} from "../utils/utils.ts";

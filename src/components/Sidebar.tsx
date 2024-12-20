@@ -28,7 +28,7 @@ const Sidebar: React.FC = () => {
                     <img src={deals} alt={'deals icon'}/>
                     {isHovered? <p className='pl-4'>Воронка сделок</p> : null}
                 </button>
-                <button className="text-2xl text-gray-900 flex items-center">
+                <button className="text-2xl text-gray-900 flex items-center" onClick={() => window.location.assign('/accounting')}>
                     <img src={analytics} alt={'analytics icon'}/>
                     {isHovered? <p className='pl-4'>Аналитика</p> : null}
                 </button>
